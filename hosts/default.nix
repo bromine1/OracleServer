@@ -3,7 +3,7 @@
 # do hostname - lib.nixosSystem {} to define a config Make a subfolder for each config
 # Build with nixos-rebuild --flake .#{configName} (I think)
 let
-  system = "x86_64-linux";
+  system = "aarch64-linux";
   pkgs = import nixpkgs {
     config = { allowUnfree = true; };
     inherit system;
