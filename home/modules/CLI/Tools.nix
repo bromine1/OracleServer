@@ -33,5 +33,6 @@
     gzip
     _7zz
     dash
+    neovim
   ];
 }
