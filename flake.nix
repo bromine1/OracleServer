@@ -26,7 +26,6 @@
 
     sops-nix.url = "github:Mic92/sops-nix";
 
-    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -39,8 +38,8 @@
     #  inputs.nixpkgs.follows = "nixpkgs";
     #};
 
+    ModdedMC.url = "github:mkaito/nixos-modded-minecraft-servers";
 
-    nil = { url = "github:oxalica/nil"; };
   };
 
   outputs =
@@ -49,8 +48,6 @@
     , sops-nix
     , home-manager
     , nix-doom-emacs
-    , neovim-nightly-overlay
-    , nil #gets latest version of nil
     , ...
     }@inputs:
 

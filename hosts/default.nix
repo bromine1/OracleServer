@@ -20,6 +20,7 @@ in
     modules = [
 
       ./configuration.nix # Default for graphical desktops
+      ./MC.nix
 
     ];
     specialArgs = { inherit inputs user; };
