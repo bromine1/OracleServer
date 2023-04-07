@@ -1,11 +1,11 @@
-{ inputs, pkgs, ... }:
+{ inputs, pkgs, lib, ... }:
 let
   # Pin JRE versions used by instances
   jre8 = pkgs.temurin-bin-8;
   jre17 = pkgs.temurin-bin-17;
 
   # "Borrowed" from AllTheMods Discord
-  jvmOpts = concatStringsSep " " [
+  jvmOpts = lib.concatStringsSep " " [
     "-XX:+UseG1GC"
     "-XX:+ParallelRefProcEnabled"
     "-XX:MaxGCPauseMillis=200"
