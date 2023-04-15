@@ -48,7 +48,26 @@ in
 
     #Servers are stored in /var/name
     instances = {
-      FTBS = {
+      # FTBS = {
+      #   enable = true;
+      #   inherit jvmOpts;
+      #   jvmMaxAllocation = "8G";
+      #   jvmInitialAllocation = "2G";
+      #   jvmPackage = jre17;
+      #
+      #   rsyncSSHKeys = [
+      #     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDGldrYw25J0K2LyZNhTakj66yYrUfrmK34WiyHa/91r ryan@Galaxia"
+      #     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPLMtBjXvadChqa2pZIvJ6eHrkcYD87/skfl3Kjwg6dO ryan@nixos"
+      #   ];
+      #
+      #   serverConfig = defaults // {
+      #     # Port must be unique
+      #     server-port = 25566;
+      #     motd = "WHADDUP GAMERS";
+      #   };
+      # };
+
+      Minimal = {
         enable = true;
         inherit jvmOpts;
         jvmMaxAllocation = "8G";
