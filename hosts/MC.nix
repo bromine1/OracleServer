@@ -1,29 +1,30 @@
-{ inputs, pkgs, lib, ... }:
-let
+{
+  inputs,
+  pkgs,
+  lib,
+  ...
+}: let
   # Pin JRE versions used by instances
   jre8 = pkgs.temurin-bin-8;
   jre17 = pkgs.temurin-bin-17;
 
   # "Borrowed" from AllTheMods Discord
   jvmOpts = lib.concatStringsSep " " [
-    "-XX:+UseG1GC"
-    "-XX:+ParallelRefProcEnabled"
-    "-XX:MaxGCPauseMillis=200"
+    "-XX:+UseNUMA"
+    "-XX:+UseShenandoahGC"
     "-XX:+UnlockExperimentalVMOptions"
-    "-XX:+DisableExplicitGC"
     "-XX:+AlwaysPreTouch"
-    "-XX:G1NewSizePercent=40"
-    "-XX:G1MaxNewSizePercent=50"
-    "-XX:G1HeapRegionSize=16M"
-    "-XX:G1ReservePercent=15"
-    "-XX:G1HeapWastePercent=5"
-    "-XX:G1MixedGCCountTarget=4"
-    "-XX:InitiatingHeapOccupancyPercent=20"
-    "-XX:G1MixedGCLiveThresholdPercent=90"
-    "-XX:G1RSetUpdatingPauseTimePercent=5"
+    "-XX:+UseStringDeduplication"
+    "-Dfml.ignorePatchDiscrepancies=true"
+    "-Dfml.ignoreInvalidMinecraftCertificates=true"
+    "-XX:-OmitStackTraceInFastThrow"
+    "-XX:+OptimizeStringConcat"
+    "-Dfml.readTimeout=180"
+    "-XX:+ParallelRefProcEnabled"
     "-XX:SurvivorRatio=32"
     "-XX:+PerfDisableSharedMem"
     "-XX:MaxTenuringThreshold=1"
+    "-Dsun.rmi.dgc.server.gcInterval=2147483646"
   ];
 
   defaults = {
@@ -39,10 +40,8 @@ let
     # It just ain't modded minecraft without flying around
     allow-flight = true;
   };
-
-in
-{
-  imports = [ inputs.ModdedMC.module ];
+in {
+  imports = [inputs.ModdedMC.module];
   services.modded-minecraft-servers = {
     eula = true;
 
@@ -67,7 +66,25 @@ in
       #   };
       # };
 
-      Minimal = {
+      #      Minimal = {
+      #        enable = true;
+      #        inherit jvmOpts;
+      #        jvmMaxAllocation = "8G";
+      #        jvmInitialAllocation = "2G";
+      #        jvmPackage = jre17;
+      #
+      #        rsyncSSHKeys = [
+      #          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID1YGb985IWR5Uxo0MwIJs7rotfzoxPIU3nEkvbWTvwd ryan@Galaxia"
+      #          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPLMtBjXvadChqa2pZIvJ6eHrkcYD87/skfl3Kjwg6dO ryan@nixos"
+      #        ];
+      #
+      #        serverConfig = defaults // {
+      #          # Port must be unique
+      #          server-port = 25566;
+      #          motd = "WHADDUP GAMERS";
+      #        };
+      #      };
+      AOF6 = {
         enable = true;
         inherit jvmOpts;
         jvmMaxAllocation = "8G";
@@ -79,14 +96,14 @@ in
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPLMtBjXvadChqa2pZIvJ6eHrkcYD87/skfl3Kjwg6dO ryan@nixos"
         ];
 
-        serverConfig = defaults // {
-          # Port must be unique
-          server-port = 25566;
-          motd = "WHADDUP GAMERS";
-        };
+        serverConfig =
+          defaults
+          // {
+            # Port must be unique
+            server-port = 25566;
+            motd = "WHADDUP GAMERS";
+          };
       };
     };
   };
-
-
 }
